@@ -1,0 +1,59 @@
+name: Update Possible
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '23 * * * *'
+  pull_request:
+    paths: ['scripts/**', '.github/workflows/update-possible.yml']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: update-possible-${{ github.event_name == 'pull_request' && github.ref || 'release' }}
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.23.3'
+      - run: node --test scripts/update-possible.test.mjs
+
+  update:
+    if: github.event_name != 'pull_request'
+    needs: test
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.23.3'
+      - name: Read public release and generate formula
+        run: node scripts/update-possible.mjs
+      - name: Commit Possible formula only
+        run: |
+          if [ ! -f Formula/possible.rb ]; then exit 0; fi
+          ruby -c Formula/possible.rb
+          git config user.name 'Lim Yi Sheng Brian'
+          git config user.email '83122861+BrianLYS@users.noreply.github.com'
+          git add Formula/possible.rb
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Update Possible from latest public release"
+          for attempt in 1 2 3; do
+            echo "Tap push attempt $attempt"
+            git pull --rebase origin main
+            if git push origin HEAD:main; then exit 0; fi
+          done
+          exit 1
