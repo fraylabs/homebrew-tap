@@ -21,6 +21,7 @@ const sums = fixture ? await readFile(join(fixture, "SHA256SUMS"), "utf8") : awa
 const target = "Formula/possible.rb";
 const previous = await readFile(target, "utf8").catch(error => { if (error.code === "ENOENT") return ""; throw error; });
 const oldVersion = previous.match(/version "([0-9.]+)"/)?.[1];
+if (previous && (!oldVersion || !/^[0-9]+\.[0-9]+\.[0-9]+$/.test(oldVersion))) throw new Error("Cannot safely update a formula without an explicit version");
 if (oldVersion && oldVersion.localeCompare(version, undefined, { numeric: true }) > 0) {
   console.log(`Tap ${oldVersion} is newer than ${version}; nothing to update`);
   process.exit(0);

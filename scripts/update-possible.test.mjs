@@ -33,6 +33,12 @@ test("tap updater uses published checksums, preserves Burr, and rejects bad rele
     assert.throws(run, /Published checksums changed/);
     await writeFile(join(fixture, "release.json"), JSON.stringify({ ...release, tag_name: "v0.4.0" }));
     assert.match(run(), /is newer/);
+    await writeFile(join(fixture, "release.json"), JSON.stringify(release));
+    await writeFile(join(fixture, "SHA256SUMS"), valid);
+    const unknown = before.replace('  version "0.5.1"\n', '');
+    await writeFile(join(directory, "Formula/possible.rb"), unknown);
+    assert.throws(run, /without an explicit version/);
+    assert.equal(await readFile(join(directory, "Formula/possible.rb"), "utf8"), unknown);
     assert.equal(await readFile(burr, "utf8"), "Burr fixture\n");
   } finally { await rm(directory, { recursive: true, force: true }); }
 });
