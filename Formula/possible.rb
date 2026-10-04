@@ -2,28 +2,28 @@
 class Possible < Formula
   desc "Discover, author, and capture source-owned AI Outcomes"
   homepage "https://possible.sh"
-  version "0.5.1"
+  version "0.5.2"
   license "MIT"
 
   on_macos do
     on_arm do
-      url "https://github.com/fraylabs/possible/releases/download/v0.5.1/possible-v0.5.1-darwin-arm64.tar.gz"
-      sha256 "ed1c75d94e5923289cb393973bd9351c7566494b6107feb0d6215c9acef631a5"
+      url "https://github.com/fraylabs/possible/releases/download/v0.5.2/possible-v0.5.2-darwin-arm64.tar.gz"
+      sha256 "c8fa6759aa980375b12525ab6888e9e34cddddcd197064ccacc67d6045c8e43c"
     end
     on_intel do
-      url "https://github.com/fraylabs/possible/releases/download/v0.5.1/possible-v0.5.1-darwin-x64.tar.gz"
-      sha256 "4c45e59c0a5ce9426466606a7ca8e6df291a0d2014f78caf488375e004be6be5"
+      url "https://github.com/fraylabs/possible/releases/download/v0.5.2/possible-v0.5.2-darwin-x64.tar.gz"
+      sha256 "6f7debef65b80a5fad2ac82e75b3b0ebc9c432fe4b3ed843cfc863e80821cddd"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/fraylabs/possible/releases/download/v0.5.1/possible-v0.5.1-linux-arm64.tar.gz"
-      sha256 "7cc292c1f4cff0a75f42684ecd4f106007bcc6bea18f0d78f371e9db76b5bdd6"
+      url "https://github.com/fraylabs/possible/releases/download/v0.5.2/possible-v0.5.2-linux-arm64.tar.gz"
+      sha256 "450c82f7c0ae34a656eddb677c887808c62ed5cfdfdd2e4c63cd960c6be17eab"
     end
     on_intel do
-      url "https://github.com/fraylabs/possible/releases/download/v0.5.1/possible-v0.5.1-linux-x64.tar.gz"
-      sha256 "c1daf26cc7f3177657a5066bb8c592ed5ddd717c098a0f2b62daaaf7191aeacb"
+      url "https://github.com/fraylabs/possible/releases/download/v0.5.2/possible-v0.5.2-linux-x64.tar.gz"
+      sha256 "72f95eb6ba6a568df794a9d2e854ebc220f77a464184d66f597b42ee8a3272b1"
     end
   end
 
